@@ -1,8 +1,12 @@
 var passport = require('passport');
 
 exports.authenticate = function(req, res, next) {
+    if(req.body.username){
+    req.body.username = req.body.username.toLowerCase();
+    }
     var auth = passport.authenticate('local', function(err, user) {
-        console.log(user);
+        //console.log("user in auth.js");
+        //console.log(user);
         if(err) {return next(err);}
         if(!user) { res.send({success:false})}
         req.login(user, function(err) {

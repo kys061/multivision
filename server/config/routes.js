@@ -1,16 +1,15 @@
 var auth = require('./auth'),
     mongoose = require('mongoose'),
-    User = mongoose.model('User');
+    User = mongoose.model('User'),
+    users = require('../controller/users');
     //LocalStrategy = require('passport-local').Strategy;
 
 
 module.exports = function (app) {
 
-    app.get('/api/users', auth.requiresRole('admin'), function(req, res) {
-       User.find({}).exec(function(err, collection) {
-           res.send(collection);
-       })
-    });
+    app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
+    app.post('/api/users', users.createUser);
+    app.put('/api/users', users.updateUser);
 
     // when somebody requests /partials/main,
     // express is going to render the main.jade file inside the partials dir inside the views dir.
@@ -19,7 +18,7 @@ module.exports = function (app) {
     // because * has many routes and * === req.params ,
     // it is array and req.params[0] is many of them(request routes from client)
     app.get('/partials/*', function(req, res){
-        console.log(req.params);
+        //console.log(req.params);
         res.render('../../public/app/' + req.params[0]);
     })
 
