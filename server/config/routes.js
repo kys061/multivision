@@ -1,8 +1,9 @@
 var auth = require('./auth'),
     mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    users = require('../controller/users');
-    //LocalStrategy = require('passport-local').Strategy;
+    users = require('../controller/users'),
+    courses = require('../controller/courses'),
+    User = mongoose.model('User');
+//LocalStrategy = require('passport-local').Strategy;
 
 
 module.exports = function (app) {
@@ -11,6 +12,7 @@ module.exports = function (app) {
     app.post('/api/users', users.createUser);
     app.put('/api/users', users.updateUser);
 
+    app.get('/api/courses', courses.getCourses);
     // when somebody requests /partials/main,
     // express is going to render the main.jade file inside the partials dir inside the views dir.
     // when request /partials/account/navbar-login, run ../../public/app/account/navbar-login.jade
@@ -20,12 +22,16 @@ module.exports = function (app) {
     app.get('/partials/*', function(req, res){
         //console.log(req.params);
         res.render('../../public/app/' + req.params[0]);
-    })
+    });
 
     app.post('/login', auth.authenticate);
     app.post('/logout', function(req, res){
         req.logout();
         res.end();
+    });
+
+    app.all('/api/*', function(req, res) {
+        res.send(404);
     });
 
     app.get('*', function(req, res){

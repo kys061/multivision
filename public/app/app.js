@@ -34,7 +34,10 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
             templateUrl: '/partials/account/profile',
             controller: 'mvProfileCtrl', resolve: routeRoleCheck.user
         })
-
+        .when('/courses', {
+            templateUrl: '/partials/courses/course-list',
+            controller: 'mvCourseListCtrl'
+        })
 
 });
 
