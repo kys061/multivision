@@ -13,6 +13,7 @@ module.exports = function (app) {
     app.put('/api/users', users.updateUser);
 
     app.get('/api/courses', courses.getCourses);
+    app.get('/api/courses/:id', courses.getCourseById);
     // when somebody requests /partials/main,
     // express is going to render the main.jade file inside the partials dir inside the views dir.
     // when request /partials/account/navbar-login, run ../../public/app/account/navbar-login.jade
